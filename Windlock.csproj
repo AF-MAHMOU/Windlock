@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>AppLockerOverlay</RootNamespace>
+    <AssemblyName>Windlock</AssemblyName>
+    <AssemblyTitle>Windlock</AssemblyTitle>
+    <Product>Windlock</Product>
+    <AssemblyCompany>AF-MAHMOU</AssemblyCompany>
+    <Description>Windlock — password-protected locker for Windows apps and File Explorer (overlay shields, encrypted settings, optional extras).</Description>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.6" />
+  </ItemGroup>
+
+  <!-- Single-file publish deletes the previous exe; if that copy is still running, bundling fails with Access denied. -->
+  <Target Name="WindlockStopExeLockingPublishDir" BeforeTargets="Publish" Condition="'$(DesignTimeBuild)' != 'true' And '$(PublishSingleFile)' == 'true' And '$(PublishDir)' != ''">
+    <PropertyGroup>
+      <_WindlockStopScript>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', 'StopPublishLock.ps1'))</_WindlockStopScript>
+    </PropertyGroup>
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(_WindlockStopScript)&quot; &quot;$(PublishDir)&quot; &quot;$(AssemblyName)&quot;" IgnoreExitCode="true" />
+  </Target>
+
+</Project>

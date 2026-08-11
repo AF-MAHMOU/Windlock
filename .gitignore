@@ -1,0 +1,19 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+
+# User-specific
+*.user
+*.suo
+.vs/
+
+# Publish / scratch output (not needed to compile from source)
+publish/
+_b5/
+
+# Logs (runtime)
+*.log
+
+# OS / tooling
+Thumbs.db
+Desktop.ini
